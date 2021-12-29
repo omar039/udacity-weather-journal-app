@@ -11,8 +11,10 @@ let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
 Btn_generate.addEventListener('click', ()=>{
     const newZip = document.getElementById('zip').value;
     const newFeelings = document.getElementById('feelings').value;
-    console.log(newZip);
-    console.log(getWeatherData(newZip));
+    getWeatherData(newZip).then((data)=>{
+        console.log(data);
+        postData('/add', data)
+    });
 });
 
 /* Function to GET Web API Data*/
@@ -29,7 +31,7 @@ const getWeatherData = async (zip) =>{
 }
 /* Function to POST data */
 const postData = async ( url = '', data = {})=>{
-    console.log(data);
+      console.log(data);
       const response = await fetch(url, {
       method: 'POST', 
       credentials: 'same-origin',
@@ -49,4 +51,4 @@ const postData = async ( url = '', data = {})=>{
       }
   }
 
-postData('/add', {answer:42});
+//postData('/add', {answer:42});
