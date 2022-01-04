@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 // Cors for cross origin allowance
 const cors = require("cors");
-
+const axios = require('axios');
 // Setup empty JS object to act as endpoint for all routes
 projectData = {};
 const port = 5000;
@@ -35,7 +35,4 @@ app.post('/add', (req, res)=>{
     res.send(projectData);
 })
 
-
-
-
-const server = app.listen(port);
+app.listen(port);

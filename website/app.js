@@ -8,27 +8,26 @@ const date = new Date().toDateString();
 
 // Event listener to add function to existing HTML DOM element
 document.getElementById('generate').addEventListener('click', ()=>{
-    const newZip = document.getElementById('zip').value;
-    const newFeelings = document.getElementById('feelings').value;
-    getWeatherData(newZip).then( data => 
-      postData('/add', extractData(data, newFeelings))).then(() => updateUI());
+  const newZip = document.getElementById('zip').value;
+  const newFeelings = document.getElementById('feelings').value;
+  getWeatherData(newZip).then( data => 
+    postData('/add', extractData(data, newFeelings)))
+    .then(() => updateUI());
 });
 
 /* Function to GET Web API Data*/
 const getWeatherData = async (zip) =>{
-    const res = await fetch(baseURL+zip+apiKey);
-    try {
-      const data = await res.json();
-      console.log(data)
-      return data;
-    }  catch(error) {
-      console.log("error", error);
-      // appropriately handle the error
-    }
+  try {
+    const {data} = await axios.get(baseURL+zip+apiKey);
+    return data;
+  } catch (error) {
+    console.log("error", error);
+  }
 }
 
 // Function to extract needed data
 const extractData =  (data, feelings) =>{
+  console.log(data);
   const savedData =  {
     "city": data.name,
     "icon": data.weather[0].icon,
@@ -42,39 +41,28 @@ const extractData =  (data, feelings) =>{
 
 /* Function to POST data */
 const postData = async ( url = '', data = {})=>{
-      console.log(data);
-      const response = await fetch(url, {
-      method: 'POST', 
-      credentials: 'same-origin',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-     // Body data type must match "Content-Type" header        
-      body: JSON.stringify(data), 
-    });
-
-      try {
-        const newData = await response.json();
-        console.log(newData);
-        return newData;
-      }catch(error) {
-      console.log("error", error);
-      }
+  console.log(data);
+  try {
+    const newData = await axios.post(url, data);
+    console.log(newData);
+    return newData;
+  }catch(error) {
+  console.log("error", error);
   }
+}
 
 //function to update UI
 const updateUI = async () =>{
-  const req = await fetch('/all');
   try {
-      const data = await req.json();
-      console.log(data);
-      document.getElementById('city').innerText = `Weather in ${data.city}`;
-      document.getElementById('date').innerText = date;
-      document.getElementById('temp').innerText = `${Math.round(data.temp)}°C`;
-      document.getElementById('icon').style.display = "block";
-      document.getElementById('icon').src = `https://openweathermap.org/img/wn/${data.icon}.png`;
-      document.getElementById('desc').innerText = `${data.desc}`;
-      document.getElementById('content').innerText= `Today I feel ${data.feelings}`;  
+    const {data} = await axios.get('/all');
+    console.log(data);
+    document.getElementById('city').innerText = `Weather in ${data.city}`;
+    document.getElementById('date').innerText = date;
+    document.getElementById('temp').innerText = `${Math.round(data.temp)}°C`;
+    document.getElementById('icon').style.display = "block";
+    document.getElementById('icon').src = `https://openweathermap.org/img/wn/${data.icon}.png`;
+    document.getElementById('desc').innerText = `${data.desc}`;
+    document.getElementById('content').innerText= `Today I feel ${data.feelings}`;  
   } catch (error) {
     console.log("error", error);
   }
