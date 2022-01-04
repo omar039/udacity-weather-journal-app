@@ -3,7 +3,7 @@ let baseURL = 'https://api.openweathermap.org/data/2.5/weather?zip=';
 // Personal API Key for OpenWeatherMap API
 let apiKey = ',us&appid=8277b3d12b6e121e02edbd9a62640323&units=metric';
 // Create a new date instance dynamically with JS
-let d = new Date().toDateString();
+let date = new Date().toDateString();
 //let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
 
 // Event listener to add function to existing HTML DOM element
@@ -12,7 +12,6 @@ document.getElementById('generate').addEventListener('click', ()=>{
     const newFeelings = document.getElementById('feelings').value;
     getWeatherData(newZip).then( data => 
       postData('/add', extractData(data, newFeelings))).then(() => updateUI());
-    
 });
 
 /* Function to GET Web API Data*/
@@ -37,14 +36,12 @@ const extractData =  (data, feelings) =>{
     "temp": data.main.temp,
     "feelings": feelings,
   };
-  console.log("------------saved---------------")
   console.log(savedData);
   return savedData;
 }
 
 /* Function to POST data */
 const postData = async ( url = '', data = {})=>{
-      console.log("-------postdata------")
       console.log(data);
       const response = await fetch(url, {
       method: 'POST', 
@@ -58,11 +55,9 @@ const postData = async ( url = '', data = {})=>{
 
       try {
         const newData = await response.json();
-        console.log('------------------');
         console.log(newData);
         return newData;
       }catch(error) {
-      
       console.log("error", error);
       }
   }
@@ -74,17 +69,13 @@ const updateUI = async () =>{
       const data = await req.json();
       console.log(data);
       document.getElementById('city').innerText = `Weather in ${data.city}`;
-      document.getElementById('date').innerHTML = d;
-      document.getElementById('temp').innerHTML = `${Math.round(data.temp)}°C`;
+      document.getElementById('date').innerText = date;
+      document.getElementById('temp').innerText = `${Math.round(data.temp)}°C`;
       document.getElementById('icon').style.display = "block";
       document.getElementById('icon').src = `https://openweathermap.org/img/wn/${data.icon}.png`;
       document.getElementById('desc').innerText = `${data.desc}`;
-      document.getElementById('content').innerHTML= `Today I feel ${data.feelings}`;
-      
+      document.getElementById('content').innerText= `Today I feel ${data.feelings}`;  
   } catch (error) {
-
     console.log("error", error);
   }
 }
-
-//postData('/add', {answer:42});
