@@ -7,7 +7,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const cors = require("cors");
-
+ 
 // Start up an instance of app
 const app = express();
 app.use(cors());
@@ -33,6 +33,7 @@ app.get('/all', (req, res) => {
 //post route
 app.post('/add', (req, res)=>{
     projectData = req.body;
+    res.send(projectData)
     //console.log(projectData);
 })
 

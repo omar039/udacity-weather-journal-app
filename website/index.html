@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Weather Journal</title>
 <link href="https://fonts.googleapis.com/css?family=Oswald:400,600,700|Ranga:400,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
  <body>
@@ -12,22 +13,28 @@
     Weather Journal App
   </div>
   
-  <div class ="holder zip">
-    <label for="zip">Enter Zipcode here</label>
-    <input type="text" id="zip" placeholder="enter zip code here">
-  </div>
-  <div class ="holder feel">
-    <label for="feelings">How are you feeling today?</label>
-    <textarea class= "myInput" id="feelings" placeholder="Enter your feelings here" rows="9" cols="50"></textarea>
-    <button id="generate" type = "submit"> Generate </button>
-  </div>
-  
-  <div class ="holder entry">
-    <div class = "title">Most Recent Entry</div>
-   <div id = "entryHolder">
-    <div id = "date"></div> 
-   <div id = "temp"></div>
-   <div id = "content"></div>
+  <div class ="card">
+    <div class ="holder zip">
+      <input type="text" id="zip" placeholder="Enter Zipcode here" required>
+    </div>
+    <div class ="holder feel">
+      <textarea class= "myInput" id="feelings" placeholder="How are you feeling today?" rows="9" cols="50"></textarea>
+    </div>
+    <div>
+      <button id="generate" type = "submit"> Generate </button>
+    </div>
+    
+    <div class ="holder entry">
+      <div id = "entryHolder">
+        <div id = "temp"></div>
+        <div id = "date"></div> 
+        <div id = "city"></div>
+        <div id = "row">
+          <img id = "icon" src="" alt="icon">
+          <div id = "desc"></div>
+        </div>
+        <div id = "content"></div>
+      </div>
   </div>
   </div>
 </div>
