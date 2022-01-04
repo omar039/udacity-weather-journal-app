@@ -10,13 +10,24 @@ const date = new Date().toDateString();
 document.getElementById('generate').addEventListener('click', ()=>{
   const newZip = document.getElementById('zip').value;
   const newFeelings = document.getElementById('feelings').value;
+  if(!isValidUSZip(newZip)){
+    alert('Please enter a valid zipcode')
+    return;
+  }
   getWeatherData(newZip).then( data => 
     postData('/add', extractData(data, newFeelings)))
-    .then(() => updateUI());
+    .then(() => updateUI())
+    .catch(error => console.log(error));
 });
 
+// Function to validate zip code
+
+const isValidUSZip = zip => {
+  return /^\d{5}(-\d{4})?$/.test(zip);
+}
+
 /* Function to GET Web API Data*/
-const getWeatherData = async (zip) =>{
+const getWeatherData = async zip =>{
   try {
     const {data} = await axios.get(baseURL+zip+apiKey);
     return data;
@@ -26,7 +37,7 @@ const getWeatherData = async (zip) =>{
 }
 
 // Function to extract needed data
-const extractData =  (data, feelings) =>{
+const extractData =  (data, feelings = '') =>{
   console.log(data);
   const savedData =  {
     "city": data.name,
