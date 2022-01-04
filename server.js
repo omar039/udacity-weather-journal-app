@@ -7,7 +7,7 @@ const cors = require("cors");
 
 // Setup empty JS object to act as endpoint for all routes
 projectData = {};
-
+const port = 5000;
 // Start up an instance of app
 const app = express();
 app.use(cors());
@@ -38,4 +38,4 @@ app.post('/add', (req, res)=>{
 
 
 
-const server = app.listen(5000);
+const server = app.listen(port);
